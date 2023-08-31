@@ -37,9 +37,8 @@ void loop() {
       smartDelay(100); // Use smaller delays inside this loop
     }
 
-    double lat_val, alt_m_val;
-    uint8_t hr_val, min_val, sec_val;
-    bool loc_valid, alt_valid, time_valid;
+    double alt_m_val;
+    bool alt_valid;
 
     alt_m_val = gps.altitude.meters();  
     alt_valid = gps.altitude.isValid();
