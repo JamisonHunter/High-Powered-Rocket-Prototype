@@ -11,9 +11,18 @@ volatile int degree, secs, mins;
 
 unsigned int eepromIndex = 0;
 
+
 void setup() {
   Serial.begin(9600);
   GPS_SoftSerial.begin(9600);
+
+  Serial.println("Erasing EEPROM...");
+
+for (int i = 0; i < EEPROM.length(); i++) {
+    EEPROM.write(i, 0); // Write zero to each EEPROM address
+  }
+
+  Serial.println("EEPROM Erased.");
 }
 
   // Define the smartDelay function
@@ -42,6 +51,9 @@ void loop() {
 
     alt_m_val = gps.altitude.meters();  
     alt_valid = gps.altitude.isValid();
+
+    Serial.print("Altitude (meters): ");
+    Serial.println(alt_m_val);
     
     if (eepromIndex < EEPROM.length()) {
     EEPROM.write(eepromIndex, constrain(alt_m_val / 10, 0, 99));
@@ -62,7 +74,7 @@ void loop() {
           Serial.print("EEPROM Index: ");
           Serial.println(eepromIndex);
           Serial.print("Altitude: ");
-          Serial.println(EEPROM.read(eepromIndex));  
+          Serial.println(EEPROM.read(i));  
         }
   }
 }
